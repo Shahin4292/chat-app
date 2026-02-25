@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Dimensions {
@@ -7,6 +8,10 @@ class Dimensions {
   static double fontSizeLarge = Get.context!.width >= 1300 ? 20 : 16;
   static double fontSizeExtraLarge = Get.context!.width >= 1300 ? 22 : 18;
   static double fontSizeOverLarge = Get.context!.width >= 1300 ? 28 : 24;
+
+  static double height = MediaQuery.of(Get.context!).size.height;
+  static double width = MediaQuery.of(Get.context!).size.width;
+
 
   static const double paddingSizeExtraSmall = 5.0;
   static const double paddingSizeSmall = 10.0;
