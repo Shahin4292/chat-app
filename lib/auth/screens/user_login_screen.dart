@@ -31,6 +31,48 @@ class UserLoginScreen extends StatelessWidget {
 
           SizedBox(height: height * 0.05),
 
+          Padding(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              children: [
+
+                TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined),
+                    labelText: 'Enter your email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                  ),
+                ),
+
+                SizedBox(height: height * 0.02),
+
+                TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.password_outlined),
+                    labelText: 'Enter your password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                  ),
+                ),
+
+                SizedBox(height: height * 0.05),
+
+                ElevatedButton(onPressed: (){}, child: Text('Login'))
+              ],
+            ),
+          )
+
         ],
       ),
     );
