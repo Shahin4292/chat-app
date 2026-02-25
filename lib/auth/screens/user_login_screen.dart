@@ -1,3 +1,4 @@
+import 'package:chat_app/common/custom_button.dart';
 import 'package:chat_app/utils/app_color.dart';
 import 'package:chat_app/utils/image_path.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,12 @@ class UserLoginScreen extends StatelessWidget {
 
                 SizedBox(height: height * 0.05),
 
-                ElevatedButton(onPressed: (){}, child: Text('Login'))
+                CustomButton(
+                  text: 'Login',
+                  onTap: () {
+                    // Handle login logic here
+                  },
+                ),
               ],
             ),
           )
