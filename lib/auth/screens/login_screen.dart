@@ -1,10 +1,12 @@
-import 'package:chat_app/common/custom_button.dart';
+import 'package:chat_app/base/custom_button.dart';
 import 'package:chat_app/utils/app_color.dart';
 import 'package:chat_app/utils/image_path.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'sign_up_screen.dart';
 
-class UserLoginScreen extends StatelessWidget {
-  const UserLoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +77,21 @@ class UserLoginScreen extends StatelessWidget {
                     // Handle login logic here
                   },
                 ),
+                Row(
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => SignUpScreen());
+                      },
+                      child: Text('Sign Up', style: TextStyle(color: AppColor.primaryColor, fontWeight: FontWeight.bold)),
+                    ),
+                    Text('Don\'t have an account? '),
+                  ],
+                )
               ],
             ),
-          )
-
+          ),
         ],
       ),
     );
