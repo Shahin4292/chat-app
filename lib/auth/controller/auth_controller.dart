@@ -51,6 +51,19 @@ class AuthController extends GetxController {
   // Make state reactive
   Rx<AuthFormStateModel> state = AuthFormStateModel().obs;
 
+  void clearState() {
+    state.value = state.value.copyWith(
+      name: '',
+      email: '',
+      password: '',
+      nameError: null,
+      emailError: null,
+      passwordError: null,
+      isPasswordVisible: false,
+      isLoading: false,
+    );
+  }
+
   void updateName(String name) {
     String? nameError;
     if (name.isNotEmpty && name.length < 6) {

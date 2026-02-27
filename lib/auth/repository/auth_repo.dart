@@ -15,7 +15,10 @@ class AuthRepo {
         return 'Please fill in all fields';
       }
 
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      );
 
       await _firestore.collection("users").doc(userCredential.user!.uid).set({
         "name": name,

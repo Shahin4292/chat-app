@@ -98,25 +98,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         contentPadding: EdgeInsets.all(10),
-                        errorText: _authController.state.value.emailError
+                        errorText: _authController.state.value.emailError,
                     ),
                   ),
 
                   SizedBox(height: height * 0.02),
 
                   TextField(
+                    obscureText: _authController.state.value.isPasswordVisible,
                     autocorrect: false,
                     onChanged: (value) => _authController.updatePassword(value),
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                         hintText: 'Password',
-                        prefixIcon: Icon(Icons.password_outlined),
+                        prefixIcon: Icon(Icons.lock_outline),
                         labelText: 'Enter your password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         contentPadding: EdgeInsets.all(10),
-                        errorText: _authController.state.value.passwordError
+                        errorText: _authController.state.value.passwordError,
+                        suffixIcon: IconButton(onPressed: () => _authController.togglePasswordVisibility(), icon: Icon(_authController.state.value.isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined))
                     ),
                   ),
 

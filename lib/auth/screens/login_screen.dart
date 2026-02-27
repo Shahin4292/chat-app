@@ -1,17 +1,43 @@
+import 'package:chat_app/auth/controller/auth_controller.dart';
+import 'package:chat_app/auth/repository/auth_repo.dart';
 import 'package:chat_app/base/custom_button.dart';
+import 'package:chat_app/home/screens/home_screen.dart';
 import 'package:chat_app/utils/app_color.dart';
 import 'package:chat_app/utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'sign_up_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthController _authController = Get.put(AuthController());
+  final AuthRepo _authRepo = Get.put(AuthRepo());
+
+  void login() async {
+    _authController.setLoading(true);
+    final response  = await _authRepo.loginUser(
+      email: _authController.state.value.email,
+      password: _authController.state.value.password,
+    );
+    _authController.setLoading(false);
+    if(response  == 'Login successful'){
+      Get.to(() => HomeScreen());
+      Get.snackbar('Success', response , backgroundColor: Colors.green, colorText: Colors.white);
+    } else {
+      Get.snackbar('Error', response , backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
 
@@ -36,11 +62,12 @@ class LoginScreen extends StatelessWidget {
 
           Padding(
             padding: EdgeInsets.all(15),
-            child: Column(
+            child: Obx(() => Column(
               children: [
 
                 TextField(
                   autocorrect: false,
+                  onChanged: (value) => _authController.updateEmail(value),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'Email',
@@ -50,33 +77,57 @@ class LoginScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     contentPadding: EdgeInsets.all(10),
+                    errorText: _authController.state.value.emailError,
                   ),
                 ),
 
                 SizedBox(height: height * 0.02),
 
                 TextField(
+                  obscureText: _authController.state.value.isPasswordVisible,
                   autocorrect: false,
+                  onChanged: (value) => _authController.updatePassword(value),
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
-                    hintText: 'Password',
-                    prefixIcon: Icon(Icons.password_outlined),
-                    labelText: 'Enter your password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: EdgeInsets.all(10),
+                      hintText: 'Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      labelText: 'Enter your password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      contentPadding: EdgeInsets.all(10),
+                      errorText: _authController.state.value.passwordError,
+                      suffixIcon: IconButton(onPressed: () => _authController.togglePasswordVisibility(), icon: Icon(_authController.state.value.isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined))
                   ),
                 ),
 
                 SizedBox(height: height * 0.05),
 
+                _authController.state.value.isLoading ? Center(child: CircularProgressIndicator()) :
+
                 CustomButton(
                   text: 'Login',
-                  onTap: () {
-                    // Handle login logic here
-                  },
+                  onTap: _authController.state.value.isFormValid ? login : null,
                 ),
+
+                SizedBox(height: height * 0.02),
+
+                Row(
+                  children: [
+                    Expanded(child: Container(
+                      height: 1,
+                      color: AppColor.primaryColor,
+                    )),
+
+                    Text(' Or '),
+
+                    Expanded(child: Container(
+                      height: 1,
+                      color: AppColor.primaryColor,
+                    )),
+                  ],
+                ),
+
                 Row(
                   textDirection: TextDirection.rtl,
                   children: [
@@ -90,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+            ),)
           ),
         ],
       ),
