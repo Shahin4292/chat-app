@@ -1,5 +1,6 @@
 import 'package:chat_app/auth/controller/auth_controller.dart';
 import 'package:chat_app/auth/repository/auth_repo.dart';
+import 'package:chat_app/auth/screens/phone_auth_screen.dart';
 import 'package:chat_app/base/custom_button.dart';
 import 'package:chat_app/home/screens/home_screen.dart';
 import 'package:chat_app/utils/app_color.dart';
@@ -112,6 +113,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 SizedBox(height: height * 0.02),
 
+                CustomButton(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context){
+                        return Dialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            child: PhoneAuthScreen(),
+                          ),
+                        );
+                      }
+                    );
+
+                  },
+                  child: Row(
+                    mainAxisAlignment: .center,
+                    children: [
+                      Icon(Icons.phone, color: Colors.white,),
+                      SizedBox(width: 10),
+                      Text('Login with Phone', style: TextStyle(color: Colors.white),),
+                    ],
+                  ),
+                ),
+
                 Row(
                   children: [
                     Expanded(child: Container(
@@ -125,6 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 1,
                       color: AppColor.primaryColor,
                     )),
+
+                    SizedBox(height: height * 0.02),
+
                   ],
                 ),
 

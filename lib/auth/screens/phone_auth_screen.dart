@@ -58,7 +58,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             CustomButton(
               text: 'Send OTP',
               onTap: () {
-                String phoneNumber = '$countryCode${phoneController.text.trim()}';
+                final phoneNumber = '$countryCode${phoneController.text.trim()}';
                 _authController.sendVerificationCode(phoneNumber: phoneNumber, context: context);
               },)
 

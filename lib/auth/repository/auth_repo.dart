@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -7,15 +8,16 @@ class AuthRepo {
 
   // Sign up user with name, email and password
   Future<String> signUpUser({
-  required String name,
-  required String email,
-  required String password}) async {
-    try{
-      if(name.isEmpty || email.isEmpty || password.isEmpty){
+    required String name,
+    required String email,
+    required String password}) async {
+    try {
+      if (name.isEmpty || email.isEmpty || password.isEmpty) {
         return 'Please fill in all fields';
       }
 
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
           email: email,
           password: password
       );
@@ -39,8 +41,8 @@ class AuthRepo {
   Future<String> loginUser({
     required String email,
     required String password}) async {
-    try{
-      if(email.isEmpty || password.isEmpty){
+    try {
+      if (email.isEmpty || password.isEmpty) {
         return 'Please fill in all fields';
       }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -55,5 +57,5 @@ class AuthRepo {
   // Logout user
   Future<void> signOutUser() async {
     await _auth.signOut();
-}
+  }
 }
