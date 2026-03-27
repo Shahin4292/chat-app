@@ -8,8 +8,8 @@ class ProfileModel {
   final String? userId;
 
   ProfileModel({
-    required this.name,
-    this.email,
+    this.name = '',
+    this.email = '',
     this.isLoading = false,
     this.isUpLoading = false,
     this.createdAt,
