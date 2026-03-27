@@ -1,3 +1,4 @@
+import 'package:chat_app/profile/screens/profile_screen.dart';
 import 'package:chat_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -9,20 +10,29 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int currentIndex = 0;
+  int _currentIndex = 0;
+  // bool _hasInitialize = false;
+
+  final List<Widget> _screens = [
+    Container(color: Colors.red), // Home Screen Placeholder
+    Container(color: Colors.green), // Search Screen Placeholder
+    ProfileScreen(), // Profile Screen Placeholder
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.grey.shade50,
         selectedFontSize: 16,
-        currentIndex: currentIndex,
+        currentIndex: _currentIndex,
+        elevation: 0,
         onTap: (index) {
           setState(() {
-            currentIndex = index;
+            _currentIndex = index;
           });
         },
         items: const [
