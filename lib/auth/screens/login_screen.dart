@@ -1,6 +1,7 @@
 import 'package:chat_app/auth/controller/auth_controller.dart';
 import 'package:chat_app/auth/repository/auth_repo.dart';
 import 'package:chat_app/auth/screens/phone_auth_screen.dart';
+import 'package:chat_app/base/bottom_nav_bar.dart';
 import 'package:chat_app/base/custom_button.dart';
 import 'package:chat_app/home/screens/home_screen.dart';
 import 'package:chat_app/utils/app_color.dart';
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     _authController.setLoading(false);
     if(response  == 'Login successful'){
-      Get.to(() => HomeScreen());
+      Get.to(() => BottomNavBar());
       Get.snackbar('Success', response , backgroundColor: Colors.green, colorText: Colors.white);
     } else {
       Get.snackbar('Error', response , backgroundColor: Colors.red, colorText: Colors.white);
