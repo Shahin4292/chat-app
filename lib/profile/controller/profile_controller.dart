@@ -123,7 +123,7 @@ class ProfileController extends GetxController {
       // ✅ Upload to Firebase Storage
       final storageRef = FirebaseStorage.instance
           .ref()
-          .child('profile_pictures/${user.uid}.jpg');
+          .child('profile_pictures').child("${user.uid}.jpg");
 
       await storageRef.putFile(file);
 
@@ -139,7 +139,7 @@ class ProfileController extends GetxController {
       // ✅ Update local state
       state.value = state.value.copyWith(
         photoUrl: downloadUrl,
-        isUpLoading: false,
+        isLoading: false,
       );
 
       return true;
