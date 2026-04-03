@@ -33,11 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
 
-    if(_profileController.state.value.isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    // if(_profileController.state.value.isLoading) {
+    //   return const Scaffold(
+    //     body: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(

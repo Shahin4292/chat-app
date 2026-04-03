@@ -14,6 +14,12 @@ class ProfileController extends GetxController {
   Rx<ProfileModel> state = ProfileModel(isLoading: true).obs;
   late final StreamSubscription<User?> _authSubscription;
 
+  @override
+  void onInit() {
+    super.onInit();
+    _listenToAuthChanges();
+    loadUserData(); // VERY IMPORTANT
+  }
 
   void _listenToAuthChanges() {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -44,12 +50,13 @@ class ProfileController extends GetxController {
           .get();
 
       if (doc.exists) {
+        final data = doc.data()!;
         state.value = state.value.copyWith(
           userId: currentUser.uid,
-          name: doc['name'] ?? 'No Name',
-          email: doc['email'],
-          photoUrl: doc['photoUrl'],
-          createdAt: (doc['createdAt'] as Timestamp?)?.toDate(),
+          name: data['name'] ?? 'No Name',
+          email: data['email'],
+          photoUrl: data['photoURL'], // ✅ FIXED
+          createdAt: (data['createdAt'] as Timestamp?)?.toDate(), // ✅ FIXED
           isLoading: false,
         );
       } else {
@@ -139,7 +146,7 @@ class ProfileController extends GetxController {
       // ✅ Update local state
       state.value = state.value.copyWith(
         photoUrl: downloadUrl,
-        isLoading: false,
+        isUpLoading: false,
       );
 
       return true;
