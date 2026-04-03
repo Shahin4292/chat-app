@@ -23,17 +23,13 @@ class AuthRepo {
       );
 
       final user = userCredential.user;
-
-      // ✅ Clear old photoURL from Firebase Auth
       await user?.updatePhotoURL(null);
       await user?.reload();
 
-      // ✅ Store user info in Firestore (photoUrl empty)
       await _firestore.collection("users").doc(user!.uid).set({
         "name": name,
         "uid": user.uid,
         "email": email,
-        "photoUrl": "", // no previous image
         "createdAt": FieldValue.serverTimestamp(),
       });
 
@@ -44,39 +40,7 @@ class AuthRepo {
       return 'An error occurred';
     }
   }
-  // Future<String> signUpUser({
-  //   required String name,
-  //   required String email,
-  //   required String password}) async {
-  //   try {
-  //     if (name.isEmpty || email.isEmpty || password.isEmpty) {
-  //       return 'Please fill in all fields';
-  //     }
-  //
-  //     UserCredential userCredential = await _auth
-  //         .createUserWithEmailAndPassword(
-  //         email: email,
-  //         password: password
-  //     );
-  //
-  //     final user = userCredential.user;
-  //     await _firestore.collection("users").doc(userCredential.user!.uid).set({
-  //       "name": name,
-  //       "uid": userCredential.user!.uid,
-  //       "email": email,
-  //       "createdAt": FieldValue.serverTimestamp(),
-  //       // "photoUrl": userCredential.user!.photoURL,
-  //     });
-  //     return 'Sign up successful';
-  //   } on FirebaseAuthException catch (e) {
-  //     return e.message ?? 'An error occurred';
-  //   } catch (e) {
-  //     return 'An error occurred';
-  //   }
-  // }
 
-
-  // login user with email and password
   Future<String> loginUser({
     required String email,
     required String password}) async {

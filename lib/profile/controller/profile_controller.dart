@@ -8,8 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-
 class ProfileController extends GetxController {
   Rx<ProfileModel> state = ProfileModel(isLoading: true).obs;
   late final StreamSubscription<User?> _authSubscription;
@@ -24,9 +22,9 @@ class ProfileController extends GetxController {
   void _listenToAuthChanges() {
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user != null) {
-        if(state.value.userId != user.uid) {
+        if (state.value.userId != user.uid) {
           loadUserData();
-        } else{
+        } else {
           state.value = state.value.copyWith(isLoading: false);
         }
       }
@@ -55,8 +53,10 @@ class ProfileController extends GetxController {
           userId: currentUser.uid,
           name: data['name'] ?? 'No Name',
           email: data['email'],
-          photoUrl: data['photoURL'], // ✅ FIXED
-          createdAt: (data['createdAt'] as Timestamp?)?.toDate(), // ✅ FIXED
+          photoUrl: data['photoURL'],
+          // ✅ FIXED
+          createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
+          // ✅ FIXED
           isLoading: false,
         );
       } else {
@@ -130,7 +130,8 @@ class ProfileController extends GetxController {
       // ✅ Upload to Firebase Storage
       final storageRef = FirebaseStorage.instance
           .ref()
-          .child('profile_pictures').child("${user.uid}.jpg");
+          .child('profile_pictures')
+          .child("${user.uid}.jpg");
 
       await storageRef.putFile(file);
 
@@ -138,10 +139,9 @@ class ProfileController extends GetxController {
       final downloadUrl = await storageRef.getDownloadURL();
 
       // ✅ Save URL to Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({'photoUrl': downloadUrl});
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
+        {'photoUrl': downloadUrl},
+      );
 
       // ✅ Update local state
       state.value = state.value.copyWith(

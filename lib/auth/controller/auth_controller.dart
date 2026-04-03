@@ -54,7 +54,6 @@ import 'package:get/get.dart';
 import '../../home/screens/home_screen.dart';
 
 class AuthController extends GetxController {
-  // Make state reactive
   Rx<AuthFormStateModel> state = AuthFormStateModel().obs;
   Rx<PhoneAuthModel> phoneAuthState = PhoneAuthModel().obs;
 

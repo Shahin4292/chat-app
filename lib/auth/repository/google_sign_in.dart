@@ -1,5 +1,7 @@
+import 'package:chat_app/auth/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInService {
@@ -12,9 +14,8 @@ class GoogleSignInService {
     try {
       await _googleSignIn.initialize(clientId: webClientId);
       final googleUser = await _googleSignIn.authenticate();
-      if (googleUser == null) return null;
 
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = googleUser.authentication;
       final idToken = googleAuth.idToken;
       if (idToken == null) return null;
 
@@ -23,14 +24,13 @@ class GoogleSignInService {
       final user = userCredential.user;
 
       if (user != null) {
-        // Store user info in Firestore
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
           'name': user.displayName,
           'email': user.email,
           'photoURL': user.photoURL,
           'lastSignIn': DateTime.now(),
-        }, SetOptions(merge: true)); // merge true to update existing data
+        }, SetOptions(merge: true));
       }
 
       return user;
@@ -42,8 +42,15 @@ class GoogleSignInService {
 
   Future<void> signOut() async {
     try {
-      await _googleSignIn.disconnect();
+      if(_auth.currentUser != null){
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+          'isOnline': false,
+          'lastSeen': FieldValue.serverTimestamp(),
+        });
+      }
+      await _googleSignIn.signOut();
       await _auth.signOut();
+      Get.to(() => LoginScreen());
     } catch (e) {
       print('Sign out failed: $e');
     }
