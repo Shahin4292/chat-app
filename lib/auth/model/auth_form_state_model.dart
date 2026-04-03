@@ -6,34 +6,30 @@ class AuthFormStateModel {
   final String? emailError;
   final String? passwordError;
   final bool isLoading;
-  final bool isPasswordVisible;
-
+  final bool isPasswordHidden;
   AuthFormStateModel({
-    this.email = "",
-    this.password = "",
-    this.name = "",
+    this.name = '',
+    this.email = '',
+    this.password = '',
     this.nameError,
     this.emailError,
     this.passwordError,
     this.isLoading = false,
-    this.isPasswordVisible = true,
+    this.isPasswordHidden = true,
   });
-
   bool get isFormValid =>
       emailError == null &&
-      passwordError == null &&
-      (name.isEmpty || nameError == null);
-
+          passwordError == null &&
+          (name.isEmpty || nameError == null);
   AuthFormStateModel copyWith({
     String? name,
     String? email,
     String? password,
-    String? photoUrl,
     String? nameError,
     String? emailError,
     String? passwordError,
     bool? isLoading,
-    bool? isPasswordVisible,
+    bool? isPasswordHidden,
   }) {
     return AuthFormStateModel(
       name: name ?? this.name,
@@ -43,7 +39,7 @@ class AuthFormStateModel {
       emailError: emailError,
       passwordError: passwordError,
       isLoading: isLoading ?? this.isLoading,
-      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      isPasswordHidden: isPasswordHidden ?? this.isPasswordHidden,
     );
   }
 }

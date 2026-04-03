@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: height * 0.02),
 
                 TextField(
-                  obscureText: _authController.state.value.isPasswordVisible,
+                  obscureText: _authController.state.value.isPasswordHidden,
                   autocorrect: false,
                   onChanged: (value) => _authController.updatePassword(value),
                   keyboardType: TextInputType.visiblePassword,
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       contentPadding: EdgeInsets.all(10),
                       errorText: _authController.state.value.passwordError,
-                      suffixIcon: IconButton(onPressed: () => _authController.togglePasswordVisibility(), icon: Icon(_authController.state.value.isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined))
+                      suffixIcon: IconButton(onPressed: () => _authController.togglePasswordVisibility(), icon: Icon(_authController.state.value.isPasswordHidden ? Icons.visibility_off_outlined : Icons.visibility_outlined))
                   ),
                 ),
 

@@ -20,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Center(
         child: ElevatedButton(onPressed: () {
-          _authRepo.signOutUser();
+          _authRepo.signOut();
           Get.to(() => LoginScreen());
-          _authController.clearState();
+          // _authController.clearState();
         }, child: Text("Logout"))
       ),
     );

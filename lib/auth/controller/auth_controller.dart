@@ -57,18 +57,18 @@ class AuthController extends GetxController {
   Rx<AuthFormStateModel> state = AuthFormStateModel().obs;
   Rx<PhoneAuthModel> phoneAuthState = PhoneAuthModel().obs;
 
-  void clearState() {
-    state.value = state.value.copyWith(
-      name: '',
-      email: '',
-      password: '',
-      nameError: null,
-      emailError: null,
-      passwordError: null,
-      isPasswordVisible: false,
-      isLoading: false,
-    );
-  }
+  // void clearState() {
+  //   state.value = state.value.copyWith(
+  //     name: '',
+  //     email: '',
+  //     password: '',
+  //     nameError: null,
+  //     emailError: null,
+  //     passwordError: null,
+  //     isPasswordHidden: false,
+  //     isLoading: false,
+  //   );
+  // }
 
   Future<void> sendVerificationCode({
     required String phoneNumber,
@@ -132,37 +132,66 @@ class AuthController extends GetxController {
     }
   }
 
+  void togglePasswordVisibility() {
+    state.value = state.value.copyWith(isPasswordHidden: !state.value.isPasswordHidden);
+  }
   void updateName(String name) {
     String? nameError;
     if (name.isNotEmpty && name.length < 6) {
-      nameError = 'Provide your full name';
+      nameError = "Provide your full name";
     }
     state.value = state.value.copyWith(name: name, nameError: nameError);
   }
-
   void updateEmail(String email) {
     String? emailError;
-    if (email.isNotEmpty && !GetUtils.isEmail(email)) {
+    if (email.isNotEmpty &&
+        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       emailError = 'Enter a valid email';
     }
     state.value = state.value.copyWith(email: email, emailError: emailError);
   }
-
   void updatePassword(String password) {
     String? passwordError;
     if (password.isNotEmpty && password.length < 6) {
       passwordError = 'Password must be at least 6 characters';
     }
-    state.value =
-        state.value.copyWith(password: password, passwordError: passwordError);
+    state.value = state.value.copyWith(password: password, passwordError: passwordError);
   }
-
-  void togglePasswordVisibility() {
-    state.value = state.value
-        .copyWith(isPasswordVisible: !state.value.isPasswordVisible);
-  }
-
   void setLoading(bool isLoading) {
     state.value = state.value.copyWith(isLoading: isLoading);
   }
 }
+
+  // void updateName(String name) {
+  //   String? nameError;
+  //   if (name.isNotEmpty && name.length < 6) {
+  //     nameError = 'Provide your full name';
+  //   }
+  //   state.value = state.value.copyWith(name: name, nameError: nameError);
+  // }
+  //
+  // void updateEmail(String email) {
+  //   String? emailError;
+  //   if (email.isNotEmpty && !GetUtils.isEmail(email)) {
+  //     emailError = 'Enter a valid email';
+  //   }
+  //   state.value = state.value.copyWith(email: email, emailError: emailError);
+  // }
+  //
+  // void updatePassword(String password) {
+  //   String? passwordError;
+  //   if (password.isNotEmpty && password.length < 6) {
+  //     passwordError = 'Password must be at least 6 characters';
+  //   }
+  //   state.value =
+  //       state.value.copyWith(password: password, passwordError: passwordError);
+  // }
+  //
+  // void togglePasswordVisibility() {
+  //   state.value = state.value
+  //       .copyWith(isPasswordHidden: !state.value.isPasswordHidden);
+  // }
+  //
+  // void setLoading(bool isLoading) {
+  //   state.value = state.value.copyWith(isLoading: isLoading);
+  // }
