@@ -1,11 +1,12 @@
 import 'package:chat_app/auth/controller/auth_controller.dart';
 import 'package:chat_app/auth/repository/auth_repo.dart';
+import 'package:chat_app/auth/repository/google_sign_in.dart';
 import 'package:chat_app/auth/screens/phone_auth_screen.dart';
 import 'package:chat_app/base/bottom_nav_bar.dart';
 import 'package:chat_app/base/custom_button.dart';
-import 'package:chat_app/home/screens/home_screen.dart';
 import 'package:chat_app/utils/app_color.dart';
 import 'package:chat_app/utils/image_path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'sign_up_screen.dart';
@@ -20,6 +21,29 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthController _authController = Get.put(AuthController());
   final AuthRepo _authRepo = Get.put(AuthRepo());
+
+  final GoogleSignInService _googleService = GoogleSignInService();
+  User? _user;
+
+  // Replace this with your Firebase Web Client ID
+  final String clientId = '1044150413123-u05uc737uuoacoq8gopt1mhftld502ne.apps.googleusercontent.com';
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _googleService.currentUser;
+  }
+
+  Future<void> _signIn() async {
+    final user = await _googleService.signInWithGoogle(webClientId: clientId);
+    setState(() => _user = user);
+    Get.to(() => BottomNavBar());
+  }
+
+  Future<void> _signOut() async {
+    await _googleService.signOut();
+    setState(() => _user = null);
+  }
 
   void login() async {
     _authController.setLoading(true);
@@ -139,6 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text('Login with Phone', style: TextStyle(color: Colors.white),),
                     ],
                   ),
+                ),
+
+                SizedBox(height: height * 0.02),
+
+
+                CustomButton(
+                  text: 'Google Sign In',
+                  onTap: _signIn,
                 ),
 
                 Row(

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class AuthRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -27,6 +26,7 @@ class AuthRepo {
         "uid": userCredential.user!.uid,
         "email": email,
         "createdAt": FieldValue.serverTimestamp(),
+        // "photoUrl": userCredential.user!.photoURL,
       });
       return 'Sign up successful';
     } on FirebaseAuthException catch (e) {

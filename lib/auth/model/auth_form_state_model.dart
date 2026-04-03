@@ -2,6 +2,7 @@ class AuthFormStateModel {
   final String name;
   final String email;
   final String password;
+  final String photoUrl;
   final String? nameError;
   final String? emailError;
   final String? passwordError;
@@ -12,6 +13,7 @@ class AuthFormStateModel {
     this.email = "",
     this.password = "",
     this.name = "",
+    this.photoUrl = "",
     this.nameError,
     this.emailError,
     this.passwordError,
@@ -28,6 +30,7 @@ class AuthFormStateModel {
     String? name,
     String? email,
     String? password,
+    String? photoUrl,
     String? nameError,
     String? emailError,
     String? passwordError,
@@ -38,6 +41,7 @@ class AuthFormStateModel {
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
+      photoUrl: photoUrl ?? this.photoUrl,
       nameError: nameError,
       emailError: emailError,
       passwordError: passwordError,
